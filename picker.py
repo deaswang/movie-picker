@@ -3,6 +3,7 @@
 import argparse
 import requests
 from bs4 import BeautifulSoup
+from prettytable import PrettyTable
 import sys
 
 playing_url = "https://movie.douban.com/cinema/nowplaying/"
@@ -42,5 +43,7 @@ if __name__ == '__main__':
         sorted_movie = sorted(movieplaying,  key = lambda m:m.score, reverse = True)
     elif args.sort == "vote":
         sorted_movie = sorted(movieplaying,  key = lambda m:m.votecount, reverse = True)
+    table = PrettyTable(["title", "score", "vote"])
     for m in sorted_movie:
-        print(m.title, "  ", m.score, "  ", m.votecount)
+        table.add_row([m.title, m.score, m.votecount])
+    print(table)
