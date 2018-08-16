@@ -7,8 +7,11 @@ import sys
 
 playing_url = "https://movie.douban.com/cinema/nowplaying/"
 
+
 class MovieItem:
-    title = None
+    title = ""
+    score = 0.0
+    votecount = 0
 
 
 if __name__ == '__main__':
@@ -18,8 +21,11 @@ if __name__ == '__main__':
     parser.add_argument("-s", "--sort", default="score", choices=["score", "vote"], help="sort method")
 
     args = parser.parse_args()
-
-    resp = requests.get(playing_url + args.city)
+    
+    url = playing_url
+    if args.city:
+        url += args.city
+    resp = requests.get(url)
     if resp.status_code != 200:
         print("get playing list fail")
         sys.exit(-1)
