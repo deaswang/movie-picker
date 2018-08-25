@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 
+import unittest
 import picker
 
-class TestPicker:
+class TestPicker(unittest.TestCase):
 
     def test_get_html(self):
         content = picker.get_html("shanghai")
@@ -37,3 +38,7 @@ class TestPicker:
         assert "title1" in table[0].get_string()
         assert "6" in table[0].get_string()
         assert "4000" in table[0].get_string()
+
+
+if __name__ == '__main__':
+    unittest.main()
