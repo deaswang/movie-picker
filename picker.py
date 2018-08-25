@@ -5,15 +5,19 @@ Pick the playing movie from douban.
 """
 
 import argparse
+import sys
 import requests
 from bs4 import BeautifulSoup
 from prettytable import PrettyTable
-import sys
+
 
 BASE_URL = "https://movie.douban.com/cinema/nowplaying/"
 
 
 class MovieItem:
+    """
+    set the single movie information
+    """
 
     def __init__(self):
         self.title = ""
@@ -22,6 +26,11 @@ class MovieItem:
 
 # get html
 def get_html(city):
+    """
+    get html content
+    :param city:
+    :return:
+    """
     try:
         url = BASE_URL
         if city:
@@ -30,12 +39,18 @@ def get_html(city):
         if resp.status_code != 200:
             print("get playing list fail")
             sys.exit(-1)
-        return resp
+        return resp.content
     except Exception as e:
         print(e.with_traceback())
         sys.exit(-1)
 
+
 def process(content):
+    """
+    process html content
+    :param content:
+    :return:
+    """
     movieplaying = []
     soup = BeautifulSoup(content, "lxml")
     for item in soup.find_all("li", {"data-category": "nowplaying"}):
@@ -46,7 +61,13 @@ def process(content):
         movieplaying.append(movie)
     return movieplaying
 
+
 def show_table(movies):
+    """
+    print the movies table
+    :param movies:
+    :return:
+    """
     sorted_movie = None
     if args.sort == "score":
         sorted_movie = sorted(movies, key=lambda m: m.score, reverse=True)
@@ -67,6 +88,6 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    resp = get_html(args.city)
-    movies = process(resp.content)
+    content = get_html(args.city)
+    movies = process(content)
     show_table(movies)
