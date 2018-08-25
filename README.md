@@ -1,5 +1,7 @@
 # Movie Picker
 
+[![Build Status](https://travis-ci.org/deaswang/movie-picker.svg?branch=master)](https://travis-ci.org/deaswang/movie-picker)
+
 Pick the playing movie from douban.
 从豆瓣挑选当前上映的高分影片。
 
