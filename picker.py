@@ -62,21 +62,21 @@ def process(content):
     return movieplaying
 
 
-def show_table(movies):
+def gen_table(movies, sort):
     """
     print the movies table
     :param movies:
     :return:
     """
     sorted_movie = None
-    if args.sort == "score":
+    if sort == "score":
         sorted_movie = sorted(movies, key=lambda m: m.score, reverse=True)
-    elif args.sort == "vote":
+    elif sort == "vote":
         sorted_movie = sorted(movies, key=lambda m: m.votecount, reverse=True)
     table = PrettyTable(["title", "score", "vote"])
     for m in sorted_movie:
         table.add_row([m.title, m.score, m.votecount])
-    print(table)
+    return table
 
 
 if __name__ == '__main__':
@@ -90,4 +90,5 @@ if __name__ == '__main__':
 
     content = get_html(args.city)
     movies = process(content)
-    show_table(movies)
+    table = gen_table(movies, args.sort)
+    print(table)
